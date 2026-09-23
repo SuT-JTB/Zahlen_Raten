@@ -19,4 +19,3 @@
 
 ### Endpräsentation
 - Max. 15 min.
-- Simon Stinkt nach Yarak
