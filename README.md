@@ -7,11 +7,11 @@
 ## Kostenkalkulation 
 - Kosten Kalkulieren
 
-## Vorgehensweise 
+## Vorgehensweise
 - Beispielsweise Scrum
 - Plannung 
 
-## Präsentation 
+## Präsentation
 ### Zwischenpräsentation
 - 5 Min
 - Benutzerschnittstelle
