@@ -9,6 +9,14 @@
 
 ## Vorgehensweise 
 - Beispielsweise Scrum
+- Plannung 
 
 ## Präsentation 
+### Zwischenpräsentation
+- 5 Min
+- Benutzerschnittstelle
+- Aktivitätsdiagramm
+
+### Endpräsentation
 - Max. 15 min.
+- Simon Stinkt nach Yarak
