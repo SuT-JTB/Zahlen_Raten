@@ -46,11 +46,12 @@ zum Projektumfang.
 
 ## Team
 
-| Name                | GitHub                                               | Rolle       |
-| ------------------- | ---------------------------------------------------- | ----------- |
-| Jan-Timothy Beckord | [@SuT-JTB](https://github.com/SuT-JTB)               | Entwicklung |
-| Daniel Haas         | [@AlterErntshaft](https://github.com/AlterErntshaft) | Entwicklung |
-| Simon               | [@Loafiie](https://github.com/Loafiie)               | Entwicklung |
+| Name                | GitHub                                                 | Rolle               |
+| ------------------- | ------------------------------------------------------ | ------------------- |
+| Jan-Timothy Beckord | [@SuT-JTB](https://github.com/SuT-JTB)                 | Entwicklung         |
+| Daniel Haas         | [@AlterErntshaft](https://github.com/AlterErntshaft)   | Entwicklung         |
+| Simon               | [@Loafiie](https://github.com/Loafiie)                 | Entwicklung         |
+| Claude              | [@Claude](https://www.youtube.com/watch?v=dQw4w9WgXcQ) | Emotionaler Support |
 
 > Rollen noch festlegen, z. B. Product Owner, Scrum Master, Entwicklung, Dokumentation/Präsentation.
 
