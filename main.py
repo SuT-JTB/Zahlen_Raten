@@ -2,6 +2,7 @@ from random import randint
 num = randint(1, 100)
 print(num)
 
+
 if __name__ == "__main__":
 
 	guess = int(input("Gebe eine Zahl an: "))
