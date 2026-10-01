@@ -1,7 +1,6 @@
-import random
-num = int(random.random())
+from random import randint
+num = randint(1, 100)
 print(num)
-
 
 if __name__ == "__main__":
 
@@ -9,9 +8,9 @@ if __name__ == "__main__":
 	try_counter = 0
 	while guess != num:
 		if guess <= num:
-			print("zu klein")
+			print("Zu klein")
 		elif guess >= num:
-			print("zu groß")
+			print("Zu groß")
 		guess = int(input("Neue Zahl: "))
 		try_counter += 1
 
