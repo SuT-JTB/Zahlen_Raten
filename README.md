@@ -46,11 +46,11 @@ zum Projektumfang.
 
 ## Team
 
-| Name | GitHub | Rolle |
-| --- | --- | --- |
-| Jan-Timothy Beckord | [@SuT-JTB](https://github.com/SuT-JTB) | Entwicklung |
-| Daniel Haas | [@AlterErntshaft](https://github.com/AlterErntshaft) | Entwicklung |
-| Simon | [@Loafiie](https://github.com/Loafiie) | Entwicklung |
+| Name                | GitHub                                               | Rolle       |
+| ------------------- | ---------------------------------------------------- | ----------- |
+| Jan-Timothy Beckord | [@SuT-JTB](https://github.com/SuT-JTB)               | Entwicklung |
+| Daniel Haas         | [@AlterErntshaft](https://github.com/AlterErntshaft) | Entwicklung |
+| Simon               | [@Loafiie](https://github.com/Loafiie)               | Entwicklung |
 
 > Rollen noch festlegen, z. B. Product Owner, Scrum Master, Entwicklung, Dokumentation/Präsentation.
 
@@ -58,13 +58,13 @@ zum Projektumfang.
 
 ## Zeitplan
 
-| Termin | Inhalt | Status |
-| --- | --- | --- |
-| **23.09.** | Projektstart, Teambildung, Auftrag verstehen | ✅ |
-| **30.09.** | Anforderungsermittlung, Mockup, Aktivitätsdiagramm, Repo-Setup | 🔄 |
-| **07.10.** | **Zwischenpräsentation** (5 Min.) - Benutzerschnittstelle + Aktivitätsdiagramm | ⬜ |
-| **14.10.** | Implementierung, Kostenkalkulation, Test | ⬜ |
-| _n. n._ | **Abschlusspräsentation** (max. 15 Min.) | ⬜ |
+| Termin     | Inhalt                                                                         | Status |
+| ---------- | ------------------------------------------------------------------------------ | ------ |
+| **23.09.** | Projektstart, Teambildung, Auftrag verstehen                                   | ✅     |
+| **30.09.** | Anforderungsermittlung, Mockup, Aktivitätsdiagramm, Repo-Setup                 | 🔄     |
+| **07.10.** | **Zwischenpräsentation** (5 Min.) - Benutzerschnittstelle + Aktivitätsdiagramm | ⬜     |
+| **14.10.** | Implementierung, Kostenkalkulation, Test                                       | ⬜     |
+| _n. n._    | **Abschlusspräsentation** (max. 15 Min.)                                       | ⬜     |
 
 ### Meilensteine bis zur Zwischenpräsentation (07.10.)
 
@@ -106,19 +106,19 @@ Anforderungen gliedern sich weiter in **Qualitätsanforderungen** und **Randbedi
 
 ### Funktionale Anforderungen
 
-| ID | Anforderung | Priorität |
-| --- | --- | --- |
-| F1 | Spieler kann seinen Namen eingeben | Muss |
-| F2 | System erzeugt eine Zufallszahl zwischen 0 und 100 | Muss |
-| F3 | Spieler kann eine Zahl eingeben und absenden | Muss |
-| F4 | System meldet „zu groß" / „zu klein" / „richtig" | Muss |
-| F5 | System zählt die Rateversuche | Muss |
-| F6 | System speichert Name + Versuche in der Datenbank | Muss |
-| F7 | Bestenliste wird zu Spielbeginn angezeigt | Muss |
-| F8 | Bestenliste wird am Spielende angezeigt | Muss |
-| F9 | Spieler kann ein neues Spiel starten | Muss |
-| F10 | Fehlerhafte Eingaben (leer, keine Zahl, außerhalb 0-100) werden abgefangen | Muss |
-| F11 | Spielstand bleibt über die Session erhalten | Muss |
+| ID  | Anforderung                                                                | Priorität |
+| --- | -------------------------------------------------------------------------- | --------- |
+| F1  | Spieler kann seinen Namen eingeben                                         | Muss      |
+| F2  | System erzeugt eine Zufallszahl zwischen 0 und 100                         | Muss      |
+| F3  | Spieler kann eine Zahl eingeben und absenden                               | Muss      |
+| F4  | System meldet „zu groß" / „zu klein" / „richtig"                           | Muss      |
+| F5  | System zählt die Rateversuche                                              | Muss      |
+| F6  | System speichert Name + Versuche in der Datenbank                          | Muss      |
+| F7  | Bestenliste wird zu Spielbeginn angezeigt                                  | Muss      |
+| F8  | Bestenliste wird am Spielende angezeigt                                    | Muss      |
+| F9  | Spieler kann ein neues Spiel starten                                       | Muss      |
+| F10 | Fehlerhafte Eingaben (leer, keine Zahl, außerhalb 0-100) werden abgefangen | Muss      |
+| F11 | Spielstand bleibt über die Session erhalten                                | Muss      |
 
 > Liste ist ein Startpunkt und im Team zu vervollständigen und zu priorisieren.
 
@@ -185,27 +185,27 @@ demnach **wahrnehmbar, bedienbar, verständlich und robust** sein.
 
 ### Prüfwerkzeuge
 
-| Werkzeug | Zweck |
-| --- | --- |
-| **WAVE** (Browser-Erweiterung) | Barrieren aller Art in einer Seite aufspüren |
-| **Lighthouse** (in Chromium integriert) | Automatisierter Accessibility-Score |
-| **contrastchecker.com** / Color Contrast Analyzer | Kontrastverhältnisse prüfen |
+| Werkzeug                                           | Zweck                                        |
+| -------------------------------------------------- | -------------------------------------------- |
+| **WAVE** (Browser-Erweiterung)                     | Barrieren aller Art in einer Seite aufspüren |
+| **Lighthouse** (in Chromium integriert)            | Automatisierter Accessibility-Score          |
+| **contrastchecker.com** / Color Contrast Analyzer  | Kontrastverhältnisse prüfen                  |
 | **Accessibility Tree** (Firefox / Chrome DevTools) | Seite so sehen, wie Screenreader sie „sehen" |
-| **NVDA** (kostenlos) oder Windows-Sprachausgabe | Echter Screenreader-Test |
-| **HeadingsMap** | Überschriften-Hierarchie prüfen |
+| **NVDA** (kostenlos) oder Windows-Sprachausgabe    | Echter Screenreader-Test                     |
+| **HeadingsMap**                                    | Überschriften-Hierarchie prüfen              |
 
 ---
 
 ## Technischer Aufbau
 
-| Bereich | Technologie |
-| --- | --- |
-| Sprache | Python 3 |
-| Webframework | Flask |
-| Templates | Jinja2 |
-| Datenbank | SQLite (`sqlite3` oder SQLAlchemy) |
-| Zustand pro Spieler | Flask-Session |
-| Styling | CSS (ohne schweres Framework, um Kontrolle über Kontraste und Semantik zu behalten) |
+| Bereich             | Technologie                                                                         |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| Sprache             | Python 3.14                                                                         |
+| Webframework        | Flask                                                                               |
+| Templates           | Jinja2                                                                              |
+| Datenbank           | SQLite (`sqlite3` oder SQLAlchemy)                                                  |
+| Zustand pro Spieler | Flask-Session                                                                       |
+| Styling             | CSS (ohne schweres Framework, um Kontrolle über Kontraste und Semantik zu behalten) |
 
 ### Geplante Projektstruktur
 
@@ -235,12 +235,12 @@ Zahlen_Raten/
 
 Tabelle `highscore`:
 
-| Spalte | Typ | Beschreibung |
-| --- | --- | --- |
-| `id` | INTEGER PRIMARY KEY | Fortlaufende ID |
-| `name` | TEXT NOT NULL | Spielername |
-| `versuche` | INTEGER NOT NULL | Anzahl der Rateversuche |
-| `zeitpunkt` | TEXT | Zeitstempel des Spielendes |
+| Spalte      | Typ                 | Beschreibung               |
+| ----------- | ------------------- | -------------------------- |
+| `id`        | INTEGER PRIMARY KEY | Fortlaufende ID            |
+| `name`      | TEXT NOT NULL       | Spielername                |
+| `versuche`  | INTEGER NOT NULL    | Anzahl der Rateversuche    |
+| `zeitpunkt` | TEXT                | Zeitstempel des Spielendes |
 
 ---
 
@@ -286,14 +286,14 @@ Zu erstellen sind **Entwicklungskosten**, **Verkaufserlös** und **Break-Even-Pu
 
 **Entwicklungskosten**
 
-| Position | Aufwand | Stundensatz | Kosten |
-| --- | --- | --- | --- |
-| Anforderungsanalyse | _TODO_ | _TODO_ | _TODO_ |
-| UI-Konzept & Mockup | _TODO_ | _TODO_ | _TODO_ |
-| Implementierung | _TODO_ | _TODO_ | _TODO_ |
-| Test & Barrierefreiheitsprüfung | _TODO_ | _TODO_ | _TODO_ |
-| Dokumentation & Präsentation | _TODO_ | _TODO_ | _TODO_ |
-| **Summe** | | | **_TODO_** |
+| Position                        | Aufwand | Stundensatz | Kosten     |
+| ------------------------------- | ------- | ----------- | ---------- |
+| Anforderungsanalyse             | _TODO_  | _TODO_      | _TODO_     |
+| UI-Konzept & Mockup             | _TODO_  | _TODO_      | _TODO_     |
+| Implementierung                 | _TODO_  | _TODO_      | _TODO_     |
+| Test & Barrierefreiheitsprüfung | _TODO_  | _TODO_      | _TODO_     |
+| Dokumentation & Präsentation    | _TODO_  | _TODO_      | _TODO_     |
+| **Summe**                       |         |             | **_TODO_** |
 
 **Verkaufserlös** - Preis pro verkaufter Lizenz bzw. Einheit: _TODO_
 
@@ -309,15 +309,15 @@ Ergebnis: _TODO_
 
 ## Abzugebende Artefakte
 
-| Artefakt | Beschreibung | Status |
-| --- | --- | --- |
-| Anforderungskatalog | Funktionale und nicht funktionale Anforderungen, priorisiert | ⬜ |
-| Mockup | Entwurf der Benutzeroberfläche, barrierefrei und ergonomisch | ⬜ |
-| Aktivitätsdiagramm | Abläufe mit Swimlanes **User** und **Webanwendung** | ⬜ |
-| Flask-Anwendung | Lauffähiges Spiel inkl. Datenbank | ⬜ |
-| Kostenkalkulation | Entwicklungskosten, Verkaufserlös, Break-Even | ⬜ |
-| Zwischenpräsentation | 5 Minuten | ⬜ |
-| Abschlusspräsentation | max. 15 Minuten | ⬜ |
+| Artefakt              | Beschreibung                                                 | Status |
+| --------------------- | ------------------------------------------------------------ | ------ |
+| Anforderungskatalog   | Funktionale und nicht funktionale Anforderungen, priorisiert | ⬜     |
+| Mockup                | Entwurf der Benutzeroberfläche, barrierefrei und ergonomisch | ⬜     |
+| Aktivitätsdiagramm    | Abläufe mit Swimlanes **User** und **Webanwendung**          | ⬜     |
+| Flask-Anwendung       | Lauffähiges Spiel inkl. Datenbank                            | ⬜     |
+| Kostenkalkulation     | Entwicklungskosten, Verkaufserlös, Break-Even                | ⬜     |
+| Zwischenpräsentation  | 5 Minuten                                                    | ⬜     |
+| Abschlusspräsentation | max. 15 Minuten                                              | ⬜     |
 
 ---
 
