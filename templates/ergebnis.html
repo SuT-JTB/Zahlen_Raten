@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "_moderator.html" import moderator %}
+{% from "_rangliste.html" import rangliste as rangliste_tabelle %}
+
+{% set versuche_text = "1 Versuch" if ergebnis.versuche == 1 else ergebnis.versuche ~ " Versuchen" %}
+
+{% block titel %}Richtig, {{ ergebnis.zahl }} in {{ versuche_text }}{% endblock %}
+{% block seite %}ergebnis{% endblock %}
+
+{% block inhalt %}
+{% call moderator("jubelt") -%}
+Richtig, {{ ergebnis.name }}! Meine Zahl war die {{ ergebnis.zahl }}.
+{%- endcall %}
+
+<section class="buehne__links" aria-labelledby="ergebnis-titel">
+	<h2 id="ergebnis-titel" class="ergebnis__zeile">
+		Geschafft in <span class="ergebnis__zahl">{{ versuche_text }}</span>
+	</h2>
+	<p class="ergebnis__platz">Damit stehst du auf Platz {{ platz }} der Rangliste.</p>
+
+	<div class="nebenaktionen nebenaktionen--gross">
+		<form action="{{ url_for('neue_runde') }}" method="post">
+			<button type="submit" class="knopf knopf--haupt" autofocus>Neues Spiel</button>
+		</form>
+		<a class="knopf knopf--neben" href="{{ url_for('start') }}">Zur Startseite</a>
+	</div>
+</section>
+
+<div class="buehne__rechts">
+	{{ rangliste_tabelle(rangliste, ergebnis.id) }}
+</div>
+{% endblock %}

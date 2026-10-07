@@ -208,29 +208,29 @@ demnach **wahrnehmbar, bedienbar, verständlich und robust** sein.
 | Zustand pro Spieler | Flask-Session                                                                       |
 | Styling             | CSS (ohne schweres Framework, um Kontrolle über Kontraste und Semantik zu behalten) |
 
-### Geplante Projektstruktur
+### Projektstruktur
 
 ```
 Zahlen_Raten/
-├── app.py                 # Flask-Anwendung, Routen
-├── db.py                  # Datenbankzugriff
+├── app.py                 # Flask-Anwendung, Routen und Spiellogik
+├── db.py                  # Datenbankzugriff (SQLite)
 ├── schema.sql             # Tabellendefinition
 ├── requirements.txt       # Abhängigkeiten
 ├── static/
-│   └── style.css
-├── templates/
-│   ├── base.html          # Grundgerüst, lang="de", Skip-Link
-│   ├── index.html         # Namenseingabe + Bestenliste
-│   ├── game.html          # Rateformular + Rückmeldung
-│   └── result.html        # Ergebnis + Bestenliste
-└── docs/
-    ├── anforderungen.md
-    ├── mockup/
-    ├── aktivitaetsdiagramm/
-    └── kostenkalkulation.md
+│   ├── style.css          # Karopapier (hell) / Schultafel (dunkel)
+│   ├── favicon.svg
+│   └── fonts/             # Atkinson Hyperlegible + Caveat, lokal eingebunden (OFL)
+└── templates/
+    ├── base.html          # Grundgerüst, lang="de", Skip-Link
+    ├── index.html         # Namenseingabe + Rangliste
+    ├── spiel.html         # Rateformular, Rückmeldung, Rateverlauf
+    ├── ergebnis.html      # Ergebnis + Rangliste
+    ├── _moderator.html    # Strichmännchen mit Sprechblase
+    ├── _rangliste.html    # Bestenliste
+    └── svg/grafiken.html  # selbst gezeichnete SVG-Grafiken
 ```
 
-> Struktur ist ein Vorschlag und wird bei der Umsetzung angepasst.
+Noch geplant: `docs/` mit Anforderungen, Mockup, Aktivitätsdiagramm und Kostenkalkulation.
 
 ### Datenmodell (Entwurf)
 
@@ -256,7 +256,7 @@ py -m pip install flask
 Anwendung im Debug-Modus starten (im Ordner des Flask-Projekts):
 
 ```bash
-py -m flask --app page_test run --debug
+py -m flask --app app run --debug
 ```
 
 Im Debug-Modus wird die `.py`-Datei automatisch neu geladen - ein Neustart des Servers nach

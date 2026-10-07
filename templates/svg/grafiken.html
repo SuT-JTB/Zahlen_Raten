@@ -1,0 +1,119 @@
+{#
+  Selbst gezeichnete SVG-Grafiken im Skizzen-Stil.
+  Alle Grafiken sind rein dekorativ (aria-hidden) – die Information steht immer auch als Text daneben.
+  Linien nutzen currentColor, damit sie im hellen (Karopapier) und dunklen Modus (Schultafel) passen.
+#}
+
+{# Strichmännchen-Moderator. pose: winkt | denkt | hoeher | tiefer | jubelt #}
+{% macro moderator(pose="winkt") -%}
+<svg class="moderator moderator--{{ pose }}" viewBox="0 0 200 270" aria-hidden="true" focusable="false">
+	<g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+		{# Kopf: leicht unrund, als wäre er von Hand gezogen #}
+		<path d="M100 32c15-1 27 10 27 26 1 15-11 28-26 28-15 1-28-11-28-26-1-15 11-27 25-28 3 0 5 1 6 2" />
+		{# Rumpf und Beine #}
+		<path d="M101 87c-1 18 1 38-1 58 0 10 1 19 0 27" />
+		<path d="M100 171c-8 22-17 44-28 66" />
+		<path d="M100 171c9 21 19 43 29 66" />
+		<path d="M66 238c3 0 6-1 9 0M125 238c3-1 7 0 10 0" stroke-width="4" />
+
+		{# Gesicht #}
+		<g class="moderator__gesicht">
+			<circle cx="91" cy="56" r="2.6" fill="currentColor" stroke="none" />
+			<circle cx="110" cy="55" r="2.6" fill="currentColor" stroke="none" />
+			{% if pose == "denkt" %}
+			<path d="M95 72c4-2 8-1 12 1" stroke-width="3.5" />
+			<path d="M84 46c3-3 7-4 11-3M106 44c4-2 8-1 11 2" stroke-width="3" />
+			{% elif pose == "jubelt" %}
+			<path d="M88 66c5 11 20 12 26 0z" stroke-width="3.5" />
+			{% else %}
+			<path d="M89 68c6 7 16 7 23 0" stroke-width="3.5" />
+			{% endif %}
+		</g>
+
+		{# Arme – je nach Pose. Klasse "arm" wird beim Laden nachgezeichnet. #}
+		{% if pose == "winkt" %}
+		<path class="arm" pathLength="1" d="M100 108c-12 10-24 22-37 33" />
+		<path class="arm" pathLength="1" d="M100 108c14-8 26-15 38-24 4-14 8-27 11-40" />
+		<path class="arm arm--extra" pathLength="1" d="M160 38c4 4 6 9 6 15M168 30c6 6 9 14 9 23" stroke-width="3" />
+		{% elif pose == "hoeher" %}
+		<path class="arm" pathLength="1" d="M100 112c-9 6-17 13-23 22 6 6 13 11 22 14" />
+		<path class="arm" pathLength="1" d="M100 108c13-5 25-12 36-20 3-17 6-33 9-50" />
+		<path class="arm arm--extra" pathLength="1" d="M145 38c-1-6 0-12 1-17" stroke-width="4" />
+		{% elif pose == "tiefer" %}
+		<path class="arm" pathLength="1" d="M100 112c-9 6-17 13-23 22 6 6 13 11 22 14" />
+		<path class="arm" pathLength="1" d="M100 108c14 7 27 15 39 25 3 15 6 30 8 46" />
+		<path class="arm arm--extra" pathLength="1" d="M147 179c1 5 1 10 0 15" stroke-width="4" />
+		{% elif pose == "denkt" %}
+		<path class="arm" pathLength="1" d="M100 112c-9 6-17 13-23 22 6 6 13 11 22 14" />
+		<path class="arm" pathLength="1" d="M100 110c11 6 21 12 30 19-5-14-11-28-17-41" />
+		{% elif pose == "jubelt" %}
+		<path class="arm" pathLength="1" d="M100 108c-12-14-24-29-34-46" />
+		<path class="arm" pathLength="1" d="M100 108c12-14 23-30 33-47" />
+		<g class="arm arm--extra" stroke-width="3">
+			<path pathLength="1" d="M52 46l-8-7M60 34l-2-11M44 60l-11 0" />
+			<path pathLength="1" d="M146 46l8-7M139 34l3-11M152 60l11 0" />
+		</g>
+		{% endif %}
+	</g>
+</svg>
+{%- endmacro %}
+
+{# Schwanz der Sprechblase, zeigt nach unten zum Kopf des Moderators #}
+{% macro blasen_spitze() -%}
+<svg class="blase__spitze" viewBox="0 0 60 44" aria-hidden="true" focusable="false">
+	<path d="M6 0c4 14 4 28-2 42C22 30 38 14 50 0" class="blase__spitze-flaeche" />
+	<path d="M6 0c4 14 4 28-2 42C22 30 38 14 50 0" fill="none" stroke="currentColor" stroke-width="3.5"
+		stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+{%- endmacro %}
+
+{# Umriss der Sprechblase. Wird auf die Textgröße gestreckt, die Strichstärke bleibt gleich. #}
+{% macro blasen_umriss() -%}
+<svg class="blase__umriss" viewBox="0 0 300 160" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+	<path d="M38 6C100 1 200 3 262 7c28 3 36 20 34 62 0 46-3 74-36 85-60 5-160 5-222 1C8 151 3 130 4 82 3 35 9 10 38 6z"
+		vector-effect="non-scaling-stroke" />
+</svg>
+{%- endmacro %}
+
+{# Großer Pfeil wie im Mockup. richtung: hoeher | tiefer; zustand: aktiv | inaktiv | offen #}
+{% macro pfeil(richtung, zustand) -%}
+{% set id = "schraffur-" ~ richtung %}
+<svg class="pfeil pfeil--{{ richtung }} pfeil--{{ zustand }}" viewBox="0 0 140 120" aria-hidden="true" focusable="false">
+	<defs>
+		<pattern id="{{ id }}" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+			<line x1="0" y1="0" x2="0" y2="9" stroke="currentColor" stroke-width="3.2" />
+		</pattern>
+	</defs>
+	{% if richtung == "hoeher" %}
+	<path d="M70 8c-20 33-40 66-61 101 41 2 82 1 123 0C112 75 91 41 70 8z" fill="{{ 'url(#' ~ id ~ ')' if zustand == 'aktiv' else 'none' }}"
+		stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+	{% else %}
+	<path d="M70 112C50 79 30 46 9 11c41-2 82-1 123 0-20 34-41 68-62 101z" fill="{{ 'url(#' ~ id ~ ')' if zustand == 'aktiv' else 'none' }}"
+		stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+	{% endif %}
+</svg>
+{%- endmacro %}
+
+{# Kleiner Pfeil für den Rateverlauf #}
+{% macro mini_pfeil(richtung) -%}
+<svg class="mini-pfeil" viewBox="0 0 20 24" aria-hidden="true" focusable="false">
+	<path d="{{ 'M10 21V4M4 10l6-7 6 7' if richtung == 'hoeher' else 'M10 3v17M4 14l6 7 6-7' }}" fill="none"
+		stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+{%- endmacro %}
+
+{# Handgezogene Unterstreichung für die Hauptüberschrift #}
+{% macro unterstrich() -%}
+<svg class="unterstrich" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+	<path d="M4 11C80 5 170 4 260 7c45 1 90 3 136-1M40 15c90-4 190-5 300-2" fill="none" stroke="currentColor"
+		stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+</svg>
+{%- endmacro %}
+
+{# Roter Korrekturkringel um den eigenen Eintrag in der Rangliste #}
+{% macro kringel() -%}
+<svg class="kringel" viewBox="0 0 120 50" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+	<path d="M70 5C40 2 8 8 5 24c-3 16 30 23 60 22 30-1 52-8 50-22C113 9 85 3 52 6" fill="none" stroke="currentColor"
+		stroke-width="2.6" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+</svg>
+{%- endmacro %}

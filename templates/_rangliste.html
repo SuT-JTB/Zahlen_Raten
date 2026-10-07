@@ -1,0 +1,36 @@
+{% import "svg/grafiken.html" as grafik %}
+{# Bestenliste (F7, F8). eigene_id markiert den gerade gespeicherten Eintrag. #}
+{% macro rangliste(eintraege, eigene_id=None) -%}
+<section class="rangliste" aria-labelledby="rangliste-titel">
+	<h2 id="rangliste-titel">Rangliste</h2>
+	{% if eintraege %}
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Platz</th>
+				<th scope="col">Name</th>
+				<th scope="col" class="zahlspalte">Versuche</th>
+				<th scope="col" class="datumspalte">Datum</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for eintrag in eintraege %}
+			<tr{% if eintrag.id == eigene_id %} class="eigene-zeile"{% endif %}>
+				<td class="platz">{{ loop.index }}.</td>
+				<td class="name">
+					{% if eintrag.id == eigene_id %}
+					<span class="markiert">{{ eintrag.name }}{{ grafik.kringel() }}</span>
+					<span class="sr-only">(dein Ergebnis)</span>
+					{% else %}{{ eintrag.name }}{% endif %}
+				</td>
+				<td class="zahlspalte">{{ eintrag.versuche }}</td>
+				<td class="datumspalte">{{ eintrag.zeitpunkt[:10] }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<p class="leer">Noch niemand hat gewonnen. Die erste Runde landet hier ganz oben.</p>
+	{% endif %}
+</section>
+{%- endmacro %}

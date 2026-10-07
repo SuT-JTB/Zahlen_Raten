@@ -1,47 +1,33 @@
 {% extends "base.html" %}
-{% block content %}
-<main class="panel" aria-labelledby="title">
-	<h1 id="title">Zahlen raten</h1>
-	<p>Rate die Zahl zwischen 0 und 100 und versuche, die Bestenliste zu schlagen.</p>
+{% from "_moderator.html" import moderator %}
+{% from "_rangliste.html" import rangliste as rangliste_tabelle %}
 
-	{% if error %}
-	<div class="error" role="alert">{{ error }}</div>
-	{% endif %}
+{% block titel %}{{ "Name fehlt" if fehler else "Start" }}{% endblock %}
+{% block seite %}start{% endblock %}
 
-	<form action="{{ url_for('start_game') }}" method="post" novalidate>
-		<div>
-			<label for="player_name">Spielername</label>
-			<input id="player_name" name="player_name" type="text" autocomplete="name" maxlength="50" required>
-		</div>
-		<button type="submit">Spiel starten</button>
-	</form>
+{% block inhalt %}
+{% call moderator("denkt" if fehler else "winkt") -%}
+Hallo! Ich denke mir eine Zahl von 0&nbsp;bis&nbsp;100 aus. Wie heißt du?
+{%- endcall %}
 
-	<section class="highscores" aria-labelledby="highscore-title">
-		<h2 id="highscore-title">Bestenliste</h2>
-		{% if highscores %}
-		<table>
-			<thead>
-				<tr>
-					<th scope="col">Platz</th>
-					<th scope="col">Name</th>
-					<th scope="col">Versuche</th>
-					<th scope="col">Zeitpunkt</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for entry in highscores %}
-				<tr>
-					<td>{{ loop.index }}</td>
-					<td>{{ entry.name }}</td>
-					<td>{{ entry.versuche }}</td>
-					<td>{{ entry.zeitpunkt }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% else %}
-		<p>Es gibt noch keine Einträge in der Bestenliste.</p>
+<section class="buehne__links" aria-labelledby="start-titel">
+	<h2 id="start-titel" class="sr-only">Spiel starten</h2>
+	<form class="formular" action="{{ url_for('spiel_starten') }}" method="post" novalidate>
+		<label for="name">Dein Name</label>
+		<input id="name" name="name" type="text" value="{{ name }}" maxlength="30" autocomplete="nickname"
+			spellcheck="false" required {% if fehler %}aria-invalid="true" aria-describedby="name-fehler" autofocus{% endif %}>
+		{% if fehler %}
+		<p id="name-fehler" class="fehler">{{ fehler }}</p>
 		{% endif %}
-	</section>
-</main>
+		<button type="submit" class="knopf knopf--haupt">Spiel starten</button>
+	</form>
+	<p class="hinweis">
+		Nach jedem Tipp sage ich dir, ob meine Zahl höher oder tiefer liegt.
+		Wer die wenigsten Versuche braucht, steht in der Rangliste ganz oben.
+	</p>
+</section>
+
+<div class="buehne__rechts">
+	{{ rangliste_tabelle(rangliste) }}
+</div>
 {% endblock %}

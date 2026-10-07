@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from "_moderator.html" import moderator %}
+{% import "svg/grafiken.html" as grafik %}
+
+{% set art = meldung.art if meldung else "neu" %}
+{% set pose = {"hoeher": "hoeher", "tiefer": "tiefer", "fehler": "denkt", "neu": "denkt"}[art] %}
+
+{% macro meldungstext() -%}
+{% if art == "hoeher" -%}
+{% if meldung.schon_geraten %}Die {{ meldung.zahl }} hattest du schon. {% endif %}{{ meldung.zahl }} ist zu klein. Meine Zahl ist höher.
+{%- elif art == "tiefer" -%}
+{% if meldung.schon_geraten %}Die {{ meldung.zahl }} hattest du schon. {% endif %}{{ meldung.zahl }} ist zu groß. Meine Zahl ist tiefer.
+{%- elif art == "fehler" -%}
+{{ meldung.text }}
+{%- else -%}
+Ich habe mir eine Zahl von {{ min_zahl }}&nbsp;bis&nbsp;{{ max_zahl }} ausgedacht. Rate mal, {{ name }}!
+{%- endif %}
+{%- endmacro %}
+
+{% block titel %}{{ meldungstext()|striptags }}{% endblock %}
+{% block seite %}spiel{% endblock %}
+
+{% block inhalt %}
+{% call moderator(pose) %}{{ meldungstext() }}{% endcall %}
+
+<section class="buehne__links" aria-labelledby="tipp-titel">
+	<h2 id="tipp-titel" class="sr-only">Dein Tipp</h2>
+	<form class="formular" action="{{ url_for('spiel') }}" method="post" novalidate>
+		<label for="zahl">Deine Zahl <span class="label-zusatz">({{ min_zahl }} bis {{ max_zahl }})</span></label>
+		<input id="zahl" name="zahl" class="zahlfeld" type="text" inputmode="numeric" maxlength="3" autocomplete="off"
+			required autofocus aria-describedby="meldung" {% if art == "fehler" %}aria-invalid="true"{% endif %}>
+		<button type="submit" class="knopf knopf--haupt">Zahl prüfen</button>
+	</form>
+
+	<p class="zaehler">Versuche: <strong>{{ verlauf|length }}</strong></p>
+
+	{% if verlauf %}
+	<section class="verlauf" aria-labelledby="verlauf-titel">
+		<h3 id="verlauf-titel">Deine Tipps</h3>
+		<ol class="verlauf__liste">
+			{% for tipp in verlauf|reverse %}
+			<li class="verlauf__eintrag verlauf__eintrag--{{ tipp.richtung }}">
+				<span class="verlauf__zahl">{{ tipp.zahl }}</span>
+				{{ grafik.mini_pfeil(tipp.richtung) }}
+				<span>{{ "zu klein" if tipp.richtung == "hoeher" else "zu groß" }}</span>
+			</li>
+			{% endfor %}
+		</ol>
+	</section>
+	{% endif %}
+
+	<div class="nebenaktionen">
+		<form action="{{ url_for('neue_runde') }}" method="post">
+			<button type="submit" class="knopf knopf--neben">Neue Zahl</button>
+		</form>
+		<a class="knopf knopf--neben" href="{{ url_for('start') }}">Zur Startseite</a>
+	</div>
+</section>
+
+{# Die Pfeile wiederholen nur die Sprechblase – für Screenreader daher ausgeblendet. #}
+<div class="buehne__rechts pfeile" aria-hidden="true">
+	{% set oben = "aktiv" if art == "hoeher" else "inaktiv" if art == "tiefer" else "offen" %}
+	{% set unten = "aktiv" if art == "tiefer" else "inaktiv" if art == "hoeher" else "offen" %}
+	<div class="pfeile__eintrag pfeile__eintrag--{{ oben }}">
+		{{ grafik.pfeil("hoeher", oben) }}
+		<span class="pfeile__text">Höher</span>
+	</div>
+	<div class="pfeile__eintrag pfeile__eintrag--{{ unten }}">
+		<span class="pfeile__text">Tiefer</span>
+		{{ grafik.pfeil("tiefer", unten) }}
+	</div>
+</div>
+{% endblock %}

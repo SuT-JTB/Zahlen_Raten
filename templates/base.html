@@ -1,17 +1,28 @@
+{% import "svg/grafiken.html" as grafik %}
 <!DOCTYPE html>
 <html lang="de">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Zahlen raten</title>
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	<meta name="color-scheme" content="light dark">
+	<title>{% block titel %}{% endblock %} – Zahlen raten</title>
+	<link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+	<link rel="preload" href="{{ url_for('static', filename='fonts/caveat-latin-700-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-	<div class="container">
-		{% block content %}{% endblock %}
-	</div>
+	<a class="skip-link" href="#inhalt">Zum Spiel springen</a>
+
+	<header class="kopf">
+		<h1 class="kopf__titel">Höher oder tiefer? Errate die Zahl!</h1>
+		{{ grafik.unterstrich() }}
+	</header>
+
+	<main id="inhalt" class="buehne buehne--{% block seite %}{% endblock %}" tabindex="-1">
+		{% block inhalt %}{% endblock %}
+	</main>
 </body>
 
 </html>

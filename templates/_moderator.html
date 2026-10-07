@@ -1,0 +1,12 @@
+{% import "svg/grafiken.html" as grafik %}
+{# Moderator mit Sprechblase. Der Blasentext ist die zentrale Rückmeldung (id="meldung"). #}
+{% macro moderator(pose) -%}
+<section class="buehne__mitte" aria-label="Spielleiter">
+	<div class="blase">
+		{{ grafik.blasen_umriss() }}
+		<p id="meldung" class="blase__text" role="status">{{ caller() }}</p>
+		{{ grafik.blasen_spitze() }}
+	</div>
+	{{ grafik.moderator(pose) }}
+</section>
+{%- endmacro %}
