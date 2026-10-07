@@ -256,7 +256,7 @@ py -m pip install flask
 Anwendung im Debug-Modus starten (im Ordner des Flask-Projekts):
 
 ```bash
-py -m flask run --debug
+py -m flask --app page_test run --debug
 ```
 
 Im Debug-Modus wird die `.py`-Datei automatisch neu geladen - ein Neustart des Servers nach

@@ -1,172 +1,125 @@
-from flask import Flask, redirect, render_template_string, request, session, url_for
+import os
+import random
+import sqlite3
+from datetime import datetime
+
+from flask import Flask, redirect, render_template, request, session, url_for
+
+from database import DB_PATH, init_db
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get(
+    "FLASK_SECRET_KEY", "figma-69"
+)
 
-HTML_PAGE = """
-<!doctype html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Zahlen raten</title>
-    <style>
-      :root {
-        --bg: #f5f7fb;
-        --panel: #ffffff;
-        --primary: #1d4ed8;
-        --primary-dark: #153ea8;
-        --text: #1f2937;
-        --muted: #4b5563;
-        --success: #166534;
-        --warning: #92400e;
-        --danger: #b91c1c;
-        --border: #d1d5db;
-        --focus: #fbbf24;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-      }
-      .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 2rem 1rem 3rem;
-      }
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      }
-      h1, h2, h3 { margin-top: 0; }
-      form { display: grid; gap: 1rem; }
-      label {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 0.35rem;
-      }
-      input, button {
-        font: inherit;
-        font-size: 1rem;
-      }
-      input[type="text"], input[type="number"] {
-        width: 100%;
-        padding: 0.75rem 0.9rem;
-        border: 2px solid var(--border);
-        border-radius: 8px;
-      }
-      input:focus, button:focus, a:focus {
-        outline: 3px solid var(--focus);
-        outline-offset: 2px;
-      }
-      button, .button-link {
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.8rem 1.1rem;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-        font-weight: 700;
-      }
-      button:hover, .button-link:hover {
-        background: var(--primary-dark);
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 1.5rem;
-      }
-      .error {
-        color: var(--danger);
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-weight: 700;
-      }
-      .success {
-        color: var(--success);
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-weight: 700;
-      }
-      .status {
-        color: var(--warning);
-        background: #fffbeb;
-        border: 1px solid #fde68a;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-weight: 700;
-      }
-      .highscores {
-        margin-top: 1rem;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th, td {
-        padding: 0.7rem;
-        border-bottom: 1px solid var(--border);
-        text-align: left;
-      }
-      th {
-        background: #eef2ff;
-      }
-      .actions {
-        margin-top: 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
-      @media (max-width: 600px) {
-        .container { padding: 1rem 0.75rem 2rem; }
-        .panel { padding: 1rem; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      {% block content %}{% endblock %}
-    </div>
-  </body>
-</html>
-"""
+init_db()
 
 
-
-def render_page(content_template, **kwargs):
-    return render_template_string(
-        HTML_PAGE.replace("{% block content %}{% endblock %}", content_template),
-        **kwargs,
-    )
+def get_highscores():
+    with sqlite3.connect(DB_PATH) as connection:
+        connection.row_factory = sqlite3.Row
+        rows = connection.execute(
+            """
+            SELECT name, versuche, zeitpunkt
+            FROM highscore
+            ORDER BY versuche ASC, id ASC
+            LIMIT 10
+            """
+        ).fetchall()
+    return [dict(row) for row in rows]
 
 
 @app.route("/")
-def hello_world():
-	return HTML_PAGE
-	# return "<p>Test</p>"
+def index():
+    return render_template("index.html", highscores=get_highscores(), error=None)
 
-	
-	
+
+@app.route("/start", methods=["POST"])
+def start_game():
+    player_name = request.form.get("player_name", "").strip()
+    if not player_name:
+        return (
+            render_template(
+                "index.html",
+                highscores=get_highscores(),
+                error="Bitte gib einen Spielernamen ein.",
+            ),
+            400,
+        )
+
+    session["player_name"] = player_name[:50]
+    session["number_to_guess"] = random.randint(0, 100)
+    session["attempts"] = 0
+    return redirect(url_for("game"))
+
+
+@app.route("/game", methods=["GET", "POST"])
+def game():
+    if "number_to_guess" not in session:
+        return redirect(url_for("index"))
+
+    status = None
+    error = None
+
+    if request.method == "POST":
+        guess_value = request.form.get("guess", "")
+        try:
+            guess = int(guess_value)
+        except ValueError:
+            error = "Bitte gib eine ganze Zahl zwischen 0 und 100 ein."
+        else:
+            if not 0 <= guess <= 100:
+                error = "Deine Zahl muss zwischen 0 und 100 liegen."
+            else:
+                session["attempts"] += 1
+                number_to_guess = session["number_to_guess"]
+                if guess < number_to_guess:
+                    status = "Zu klein. Versuch es noch einmal."
+                elif guess > number_to_guess:
+                    status = "Zu groß. Versuch es noch einmal."
+                else:
+                    with sqlite3.connect(DB_PATH) as connection:
+                        connection.execute(
+                            """
+                            INSERT INTO highscore (name, versuche, zeitpunkt)
+                            VALUES (?, ?, ?)
+                            """,
+                            (
+                                session["player_name"],
+                                session["attempts"],
+                                datetime.now().strftime("%d.%m.%Y %H:%M"),
+                            ),
+                        )
+                    result_message = (
+                        f"Glückwunsch, {session['player_name']}! "
+                        f"Du hast die Zahl in {session['attempts']} "
+                        f"Versuchen erraten."
+                    )
+                    session.pop("number_to_guess", None)
+                    session.pop("attempts", None)
+                    session.pop("player_name", None)
+                    return render_template(
+                        "result.html",
+                        result_message=result_message,
+                        highscores=get_highscores(),
+                    )
+
+    return render_template(
+        "game.html",
+        player_name=session["player_name"],
+        status=status,
+        error=error,
+        highscores=get_highscores(),
+    )
+
+
+@app.route("/new-game")
+def new_game():
+    session.pop("number_to_guess", None)
+    session.pop("attempts", None)
+    session.pop("player_name", None)
+    return redirect(url_for("index"))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
