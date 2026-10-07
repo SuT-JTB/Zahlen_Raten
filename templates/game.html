@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="panel" aria-labelledby="game-title">
+	<h1 id="game-title">Spiel aktiv</h1>
+	<p>Spieler: <strong>{{ player_name }}</strong></p>
+
+	{% if status %}
+	<div class="status" aria-live="polite">{{ status }}</div>
+	{% endif %}
+
+	{% if error %}
+	<div class="error" role="alert">{{ error }}</div>
+	{% endif %}
+
+	<form action="{{ url_for('game') }}" method="post" novalidate>
+		<div>
+			<label for="guess">Deine Zahl</label>
+			<input id="guess" name="guess" type="number" min="0" max="100" step="1" required>
+		</div>
+		<button type="submit">Zahl prüfen</button>
+	</form>
+
+	<div class="actions">
+		<a class="button-link" href="{{ url_for('new_game') }}">Neues Spiel</a>
+	</div>
+
+	<section class="highscores" aria-labelledby="score-title">
+		<h2 id="score-title">Bestenliste</h2>
+		{% if highscores %}
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">Platz</th>
+					<th scope="col">Name</th>
+					<th scope="col">Versuche</th>
+					<th scope="col">Zeitpunkt</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entry in highscores %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ entry.name }}</td>
+					<td>{{ entry.versuche }}</td>
+					<td>{{ entry.zeitpunkt }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>Es gibt noch keine Einträge in der Bestenliste.</p>
+		{% endif %}
+	</section>
+</main>
+{% endblock %}

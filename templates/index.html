@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="panel" aria-labelledby="title">
+	<h1 id="title">Zahlen raten</h1>
+	<p>Rate die Zahl zwischen 0 und 100 und versuche, die Bestenliste zu schlagen.</p>
+
+	{% if error %}
+	<div class="error" role="alert">{{ error }}</div>
+	{% endif %}
+
+	<form action="{{ url_for('start_game') }}" method="post" novalidate>
+		<div>
+			<label for="player_name">Spielername</label>
+			<input id="player_name" name="player_name" type="text" autocomplete="name" maxlength="50" required>
+		</div>
+		<button type="submit">Spiel starten</button>
+	</form>
+
+	<section class="highscores" aria-labelledby="highscore-title">
+		<h2 id="highscore-title">Bestenliste</h2>
+		{% if highscores %}
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">Platz</th>
+					<th scope="col">Name</th>
+					<th scope="col">Versuche</th>
+					<th scope="col">Zeitpunkt</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entry in highscores %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ entry.name }}</td>
+					<td>{{ entry.versuche }}</td>
+					<td>{{ entry.zeitpunkt }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>Es gibt noch keine Einträge in der Bestenliste.</p>
+		{% endif %}
+	</section>
+</main>
+{% endblock %}

@@ -1,0 +1,13 @@
+Py_Random_Number/
+├── ZahlenRaten.py
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── game.html
+│   ├── result.html
+│   └── _highscores.html
+└── static/
+    └── css/
+        └── main.css
+
+		
