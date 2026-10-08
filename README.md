@@ -62,9 +62,9 @@ zum Projektumfang.
 | Termin     | Inhalt                                                                         | Status |
 | ---------- | ------------------------------------------------------------------------------ | ------ |
 | **23.09.** | Projektstart, Teambildung, Auftrag verstehen                                   | ✅     |
-| **30.09.** | Anforderungsermittlung, Mockup, Aktivitätsdiagramm, Repo-Setup                 | 🔄     |
-| **07.10.** | **Zwischenpräsentation** (5 Min.) - Benutzerschnittstelle + Aktivitätsdiagramm | ⬜     |
-| **14.10.** | Implementierung, Kostenkalkulation, Test                                       | ⬜     |
+| **30.09.** | Anforderungsermittlung, Mockup, Aktivitätsdiagramm, Repo-Setup                 | ✅     |
+| **07.10.** | **Zwischenpräsentation** (5 Min.) - Benutzerschnittstelle + Aktivitätsdiagramm | ✅     |
+| **14.10.** | Implementierung, Kostenkalkulation, Test                                       | 🔄     |
 | _n. n._    | **Abschlusspräsentation** (max. 15 Min.)                                       | ⬜     |
 
 ### Meilensteine bis zur Zwischenpräsentation (07.10.)
