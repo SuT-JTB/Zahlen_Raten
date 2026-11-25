@@ -1,32 +1,32 @@
 import os
 import random
-import sqlite3
-from datetime import datetime
+import uuid
+from datetime import date
 
 from flask import Flask, redirect, render_template, request, session, url_for
+from sqlalchemy import select
+from sqlalchemy.orm import Session as DBSession
 
-from database import DB_PATH, init_db
+from main import Highscore, engine
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.environ.get(
-    "FLASK_SECRET_KEY", "figma-69"
-)
-
-init_db()
+app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY", "figma-69")
 
 
 def get_highscores():
-    with sqlite3.connect(DB_PATH) as connection:
-        connection.row_factory = sqlite3.Row
-        rows = connection.execute(
-            """
-            SELECT name, versuche, zeitpunkt
-            FROM highscore
-            ORDER BY versuche ASC, id ASC
-            LIMIT 10
-            """
-        ).fetchall()
-    return [dict(row) for row in rows]
+    statement = (
+        select(Highscore).order_by(Highscore.versuche, Highscore.Score_id).limit(10)
+    )
+
+    with DBSession(engine) as db:
+        return db.scalars(statement).all()
+
+
+def create_score_id(db):
+    while True:
+        score_id = uuid.uuid4().hex[:5]
+        if db.get(Highscore, score_id) is None:
+            return score_id
 
 
 @app.route("/")
@@ -37,6 +37,7 @@ def index():
 @app.route("/start", methods=["POST"])
 def start_game():
     player_name = request.form.get("player_name", "").strip()
+
     if not player_name:
         return (
             render_template(
@@ -50,6 +51,7 @@ def start_game():
     session["player_name"] = player_name[:50]
     session["number_to_guess"] = random.randint(0, 100)
     session["attempts"] = 0
+
     return redirect(url_for("game"))
 
 
@@ -62,9 +64,8 @@ def game():
     error = None
 
     if request.method == "POST":
-        guess_value = request.form.get("guess", "")
         try:
-            guess = int(guess_value)
+            guess = int(request.form.get("guess", ""))
         except ValueError:
             error = "Bitte gib eine ganze Zahl zwischen 0 und 100 ein."
         else:
@@ -73,31 +74,33 @@ def game():
             else:
                 session["attempts"] += 1
                 number_to_guess = session["number_to_guess"]
+
                 if guess < number_to_guess:
                     status = "Zu klein. Versuch es noch einmal."
                 elif guess > number_to_guess:
                     status = "Zu groß. Versuch es noch einmal."
                 else:
-                    with sqlite3.connect(DB_PATH) as connection:
-                        connection.execute(
-                            """
-                            INSERT INTO highscore (name, versuche, zeitpunkt)
-                            VALUES (?, ?, ?)
-                            """,
-                            (
-                                session["player_name"],
-                                session["attempts"],
-                                datetime.now().strftime("%d.%m.%Y %H:%M"),
-                            ),
+                    with DBSession(engine) as db:
+                        db.add(
+                            Highscore(
+                                Score_id=create_score_id(db),
+                                name=session["player_name"],
+                                versuche=session["attempts"],
+                                zeitpunkt=date.today(),
+                            )
                         )
+                        db.commit()
+
                     result_message = (
                         f"Glückwunsch, {session['player_name']}! "
                         f"Du hast die Zahl in {session['attempts']} "
                         f"Versuchen erraten."
                     )
+
                     session.pop("number_to_guess", None)
                     session.pop("attempts", None)
                     session.pop("player_name", None)
+
                     return render_template(
                         "result.html",
                         result_message=result_message,
